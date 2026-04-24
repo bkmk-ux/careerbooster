@@ -1,6 +1,20 @@
+# Dependencies
 node_modules
 backend/node_modules
 mobile/node_modules
+
+# Env
 .env
+backend/.env
+
+# Expo
 .expo
 dist
+build
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
