@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+// =======================
+// REGISTER ROUTE
+// =======================
+
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -27,16 +33,14 @@ router.post("/register", async (req, res) => {
     });
   }
 });
+
+// =======================
+// LOGIN ROUTE
+// =======================
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Check missing fields
-    if (!email || !password) {
-      return res.status(400).json({
-        message: "Please provide email and password",
-      });
-    }
 
     // Find user
     const user = await User.findOne({ email });
@@ -56,9 +60,17 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    // Login success
-    res.status(200).json({
+    // CREATE TOKEN
+
+    const JWT_SECRET = process.env.JWT_SECRET;
+
+    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.json({
       message: "Login successful",
+      token,
       user: {
         id: user._id,
         name: user.name,

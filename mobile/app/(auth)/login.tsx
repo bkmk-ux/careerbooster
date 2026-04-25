@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import { useRouter } from "expo-router";
 import API from "../../src/services/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login() {
   const router = useRouter();
@@ -11,17 +12,18 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      await API.post("/login", {
+      const res = await API.post("/login", {
         email,
         password,
       });
 
-      alert("Login successful");
+      // Save token
+      await AsyncStorage.setItem("token", res.data.token);
       router.replace("/(tabs)");
     } catch (err: any) {
-      console.log(err.response?.data || err.message);
-      alert("Login failed");
-    }
+  console.log("LOGIN ERROR:", err.response?.data || err.message);
+  alert("LOGIN FAILED");
+}
   };
 
   return (
