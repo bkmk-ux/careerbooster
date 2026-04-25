@@ -11,6 +11,24 @@ export default function Register() {
   const [password, setPassword] = useState<string>("");
 
   const handleRegister = async () => {
+    //  VALIDATION CHECK
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      alert("All fields are required");
+      return;
+    }
+
+    //  EMAIL FORMAT CHECK 
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email");
+      return;
+    }
+
+    //  PASSWORD LENGTH CHECK
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
     try {
       await API.post("/register", {
         name,
@@ -18,7 +36,6 @@ export default function Register() {
         password,
       });
 
-      alert("Registered successfully");
       router.replace("/(auth)/login");
     } catch (err: any) {
       console.log(err.response?.data || err.message);
