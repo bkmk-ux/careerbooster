@@ -2,7 +2,7 @@
 node_modules
 backend/node_modules
 mobile/node_modules
-
+.gitignore
 # Env
 .env
 backend/.env
