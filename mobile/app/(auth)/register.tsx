@@ -18,7 +18,7 @@ export default function Register() {
     }
 
     //  EMAIL FORMAT CHECK 
-    const emailRegex = /\S+@\S+\.\S+/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       alert("Please enter a valid email");
       return;
