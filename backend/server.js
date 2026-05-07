@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
+const cvRoutes = require("./routes/cvRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -12,10 +13,7 @@ app.use(express.json());
 
 //Routes
 app.use("/api/users", userRoutes);
-// Test Route
-app.get("/", (req, res) => {
-  res.send("API running...");
-});
+app.use("/api/cv", cvRoutes);
 
 // MongoDB Connection
 mongoose
