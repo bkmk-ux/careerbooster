@@ -12,13 +12,17 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await API.post("/login", {
+      const res = await API.post("/users/login", {
         email,
         password,
       });
 
       // Save token
       await AsyncStorage.setItem("token", res.data.token);
+      await AsyncStorage.setItem(
+        "user",
+        JSON.stringify(res.data.user)
+      );
       router.replace("/(tabs)");
     } catch (err: any) {
   console.log("LOGIN ERROR:", err.response?.data || err.message);
